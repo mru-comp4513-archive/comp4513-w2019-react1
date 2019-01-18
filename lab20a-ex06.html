@@ -118,46 +118,42 @@ class Company extends React.Component {
 class App extends React.Component {
   render() {
     return (
-      <div>
-        <Company symbol="AMZN" sector="Consumer Discretionary" hq="Seattle, Washington">Amazon</Company>
-        <Company symbol="GOOG" sector="Information Technology" hq="Mountain View, California">Alphabet Inc Class A</Company>
-        <Company symbol="AAPL" sector="Information Technology" hq="Cupertino, California">Apple</Company>
-        <Company symbol="T" sector="Telecommunications Services" hq="Dallas, Texas">AT&T</Company>
-      </div>      
+      <main className="container">
+          <Header subtitle="Creating Parent Component" />
+        
+          <section  className="content box">
+            <Company symbol="AMZN" sector="Consumer Discretionary" hq="Seattle, Washington">Amazon</Company>
+            <Company symbol="GOOG" sector="Information Technology" hq="Mountain View, California">Alphabet Inc Class A</Company>
+            <Company symbol="AAPL" sector="Information Technology" hq="Cupertino, California">Apple</Company>
+            <Company symbol="T" sector="Telecommunications Services" hq="Dallas, Texas">AT&T</Company>            
+        </section>
+      </main>      
     );
   }
 }
+
+const Header = props => {
+  return (
+          <section className="hero is-primary is-small">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title">React Tutorial</h1>
+                <h2 className="subtitle">
+                  { props.subtitle }
+                </h2>
+              </div>
+            </div>
+          </section>    
+    );
+};
     
-ReactDOM.render(<App />, document.querySelector('#react-container'));           
+ReactDOM.render(<App />, document.querySelector('#react-container')); 
   
 </script> 
         
         
   </head>
   <body>
-    
-    <main class="container">
-        <section class="hero is-primary is-small">
-          <div class="hero-body">
-            <div class="container">
-              <h1 class="title">
-                React Tutorial
-              </h1>
-              <h2 class="subtitle">
-                Working with state
-              </h2>
-            </div>
-          </div>
-        </section>
-      
-        <section id='react-container' class="content box ">
-            
-                
-        </section>
-        
-    </main>
-    
-   
-
+    <div id='react-container' ></div>
   </body>
 </html>

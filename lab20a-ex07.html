@@ -17,6 +17,13 @@
     
 <script type="text/babel">
 
+
+
+/* In this example we are adding in a more sophisticated parent that contains Company data
+
+   Notice how we have moved the content out of the markup and into a data array in the component's state
+   Notice also then that the parent is responsible for populating the state of its children components
+*/
 class Portfolio extends React.Component {
   
   /* the parent will contain the data needed for the children */
@@ -59,16 +66,32 @@ class Company extends React.Component {
   constructor(props) {
       super(props);
       this.state = {editing: false};
+      
+      
+      /* Unfortunately, "this" isn't bound to the correct context for React 
+         when using methods inside classes. The work around is to call bind
+         or use arrow function syntax, which will bind "this" correctly.
+      */      
+      // this.edit = this.edit.bind(this);
+      // this.save = this.save.bind(this);
   }
-                            
+  
+                     
+  /* Here we are defining some helper functions that change state ... 
+     notice the use of setState() ... it's a bit like PHP, which uses 
+     the setcookie() function to change a cookie, but $_COOKIE to retrieve
+     a cookie */
+
+  
   edit = () => {
       this.setState({editing: true});
   }
+  
   save = () => {
       this.setState({editing: false});
-  }    
+  }   
                             
-  renderNormal() {
+  renderNormal()  {
     return (
       <article className="box media ">
         <div className="media-left">
@@ -89,7 +112,7 @@ class Company extends React.Component {
     );
   }
   
-  renderEdit() {
+  renderEdit()  {
     return (
       <article className="box media ">
         <div className="media-left">
@@ -98,17 +121,23 @@ class Company extends React.Component {
               </figure>
         </div>
         <div className="media-content">
-            <h2><input type="text" className="input" defaultValue={this.props.children} /></h2>
-            <p><strong>Symbol:</strong> <input type="text" className="input" defaultValue={this.props.symbol} /></p>
-            <p><strong>Sector:</strong> <input type="text" className="input" defaultValue={this.props.sector} /></p>
-            <p><strong>HQ:</strong> <input type="text" className="input" defaultValue={this.props.hq} /></p>
+            <h2><input type="text" className="input" 
+                       defaultValue={this.props.children} /></h2>
+            <p><strong>Symbol:</strong> <input type="text" 
+                className="input" defaultValue={this.props.symbol} /></p>
+            <p><strong>Sector:</strong> <input type="text" 
+                className="input" defaultValue={this.props.sector} /></p>
+            <p><strong>HQ:</strong> <input type="text" className="input"
+                defaultValue={this.props.hq} /></p>
         </div>
         <div className="media-right">
-          <button className="button is-info" onClick={this.save}>Save</button>
+          <button className="button is-info" onClick={this.save}>    
+             Save</button>
         </div>                     
       </article>
     );
-  } 
+  }  
+  
   
  /* we will render the component differently depending on our state (whether use has clicked edit button) */
   render() {
@@ -117,40 +146,43 @@ class Company extends React.Component {
     else
         return this.renderNormal();
   }
-                            
+  
 }
 
 
-ReactDOM.render(<Portfolio />, document.querySelector('#react-container'));          
+class App extends React.Component {
+  render() {
+    return (
+      <main className="container">
+          <Header subtitle="Preserving State Changes" />
+          <Portfolio />
+      </main>      
+    );
+  }
+}
+
+const Header = props => {
+  return (
+          <section className="hero is-primary is-small">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title">React Tutorial</h1>
+                <h2 className="subtitle">
+                  { props.subtitle }
+                </h2>
+              </div>
+            </div>
+          </section>    
+    );
+};
+    
+ReactDOM.render(<App />, document.querySelector('#react-container')); 
   
 </script> 
         
         
   </head>
   <body>
-    
-    <main class="container">
-        <section class="hero is-primary is-small">
-          <div class="hero-body">
-            <div class="container">
-              <h1 class="title">
-                React Tutorial
-              </h1>
-              <h2 class="subtitle">
-                Using a parent container to dynamically populate data
-              </h2>
-            </div>
-          </div>
-        </section>
-      
-        <section id='react-container' class="content box ">
-            
-                
-        </section>
-        
-    </main>
-    
-   
-
+    <div id='react-container' ></div>
   </body>
 </html>

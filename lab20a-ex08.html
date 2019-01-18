@@ -81,6 +81,10 @@ class Company extends React.Component {
   constructor(props) {
       super(props);
       this.state = {editing: false};
+      this.inputName = React.createRef();
+      this.inputSymbol = React.createRef();
+      this.inputSector = React.createRef();
+      this.inputHQ = React.createRef();      
 
   }
   edit = () => {
@@ -91,11 +95,11 @@ class Company extends React.Component {
      when we save, we're going to use refs to retrieve the user input and then ask the parent to save the data
   */  
   save = () => {
-      /* using the ref attributes, retrieve the user input */
-      let newName = this.refs.newName.value;
-      let newSymbol = this.refs.newSymbol.value;
-      let newSector = this.refs.newSector.value;
-      let newHq = this.refs.newHq.value;
+      /* retrieve the user input */
+      let newName = this.inputName.current.value;
+      let newSymbol = this.inputSymbol.current.value;
+      let newSector = this.inputSector.current.value;
+      let newHq = this.inputHQ.current.value;
       
       /* via props we can call the functions in parent that have been passed to the child */
       this.props.saveData(newName, newSymbol, newSector, newHq, this.props.index);
@@ -140,10 +144,10 @@ class Company extends React.Component {
               </figure>
         </div>
         <div className="media-content">
-            <h2><input type="text" className="input" defaultValue={this.props.children} ref="newName"/></h2>
-            <p><strong>Symbol:</strong> <input type="text" className="input" defaultValue={this.props.symbol} ref="newSymbol"/></p>
-            <p><strong>Sector:</strong> <input type="text" className="input" defaultValue={this.props.sector} ref="newSector"/></p>
-            <p><strong>HQ:</strong> <input type="text" className="input" defaultValue={this.props.hq} ref="newHq"/></p>
+            <h2><input type="text" className="input" defaultValue={this.props.children} ref={this.inputName}/></h2>
+            <p><strong>Symbol:</strong> <input type="text" className="input" defaultValue={this.props.symbol} ref={this.inputSymbol} /></p>
+            <p><strong>Sector:</strong> <input type="text" className="input" defaultValue={this.props.sector} ref={this.inputSector} /></p>
+            <p><strong>HQ:</strong> <input type="text" className="input" defaultValue={this.props.hq} ref={this.inputHQ} /></p>
         </div>
         <div className="media-right">
           <button className="button is-info" onClick={this.save}>Save</button>
@@ -165,36 +169,39 @@ class Company extends React.Component {
 
 
 
-ReactDOM.render(<Portfolio />, document.querySelector('#react-container'));          
+class App extends React.Component {
+  render() {
+    return (
+      <main className="container">
+          <Header subtitle="Adding Components to Parent" />
+          <Portfolio />
+      </main>      
+    );
+  }
+}
+
+const Header = props => {
+  return (
+          <section className="hero is-primary is-small">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title">React Tutorial</h1>
+                <h2 className="subtitle">
+                  { props.subtitle }
+                </h2>
+              </div>
+            </div>
+          </section>    
+    );
+};
+    
+ReactDOM.render(<App />, document.querySelector('#react-container')); 
   
 </script> 
         
         
   </head>
   <body>
-    
-    <main class="container">
-        <section class="hero is-primary is-small">
-          <div class="hero-body">
-            <div class="container">
-              <h1 class="title">
-                React Tutorial
-              </h1>
-              <h2 class="subtitle">
-                Preserving the state changes
-              </h2>
-            </div>
-          </div>
-        </section>
-      
-        <section id='react-container' class="content box ">
-            
-                
-        </section>
-        
-    </main>
-    
-   
-
+    <div id='react-container' ></div>
   </body>
 </html>

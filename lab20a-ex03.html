@@ -17,7 +17,9 @@
     
 <script type="text/babel">
 
-/* Here we are using the props collection to access the element attributes
+/* there are several ways of creating a React component.
+
+   The newer approach is shown here: using a class
 */
 class Company extends React.Component {
   render() {
@@ -42,52 +44,45 @@ class Company extends React.Component {
   }
 }
 
-/* Notice here that we are adding attributes (and a child element) to our <Company>
-   elements. These will be accessing within the component via the props collection.
-*/
+/* Notice here that we are defining another component which will
+   contain other other components 
+   
+   For this to work there must be a single root element that is being 
+   rendered ... try removing the <div> and it will no longer work */
+   
 
 class App extends React.Component {
   render() {
     return (
-      <div>
-          <Company  />
-          <Company  />
-          <Company  />
-      </div>      
+      <main className="container">
+          <section className="hero is-primary is-small">
+            <div className="hero-body">
+              <div className="container">
+                <h1 className="title">React Tutorial</h1>
+                <h2 className="subtitle">
+                  Adding multiple instances
+                </h2>
+              </div>
+            </div>
+          </section>
+        
+          <section  className="content box ">
+            <Company  />
+            <Company  />
+            <Company  />                
+          </section>
+      </main>      
     );
   }
 }
     
-ReactDOM.render(<App />, document.querySelector('#react-container'));         
+ReactDOM.render(<App />, document.querySelector('#react-container'));          
   
 </script> 
         
         
-  </head>
-  <body>
-    
-    <main class="container">
-        <section class="hero is-primary is-small">
-          <div class="hero-body">
-            <div class="container">
-              <h1 class="title">
-                React Tutorial
-              </h1>
-              <h2 class="subtitle">
-                Using props 
-              </h2>
-            </div>
-          </div>
-        </section>
-      
-        <section id='react-container' class="content box ">
-            
-                
-        </section>
-        
-    </main>
-    
-   
-
-  </body>
+</head>
+<body>
+  <div id='react-container'></div>
+</body>
 </html>
